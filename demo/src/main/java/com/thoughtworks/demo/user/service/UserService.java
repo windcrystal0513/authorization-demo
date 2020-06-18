@@ -46,6 +46,7 @@ public class    UserService {
         User user5 = userRepository.findByPhoneNumberAndPassword(userName, password);
         User user6 = userRepository.findByEmailAndPassword(userName, password);
         //String userss=user.getUserId()+user.getUserName();
+
         if (user1 == null && user2 == null && user3 == null) {
             logger.error("登录失败：用户不存在");
             return ResultUtil.error(ResultEnum.LOGIN_ERROR.getCode(), ResultEnum.LOGIN_ERROR.getMsg());
