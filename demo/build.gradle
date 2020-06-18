@@ -17,6 +17,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+// https://mvnrepository.com/artifact/com.alibaba/fastjson
+	compile group: 'com.alibaba', name: 'fastjson', version: '1.2.58'
+// https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16
+	compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
+// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+// https://mvnrepository.com/artifact/org.apache.directory.studio/org.apache.commons.codec
+	compile group: 'org.apache.directory.studio', name: 'org.apache.commons.codec', version: '1.8'
+
+
+
 	implementation 'mysql:mysql-connector-java:8.0.20'
 
 	// https://mvnrepository.com/artifact/org.flywaydb/flyway-core

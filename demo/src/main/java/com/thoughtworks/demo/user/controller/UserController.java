@@ -31,12 +31,14 @@ public class UserController {
     @PostMapping("/register")
     @CrossOrigin(value = "*")
     public ResponseEntity register(@RequestParam(name = "userName") String userName,
+                                   @RequestParam(name = "phoneNumber") String phoneNumber,
+                                   @RequestParam(name = "email") String email,
                                 @RequestParam(name = "password") String password,
-                                @RequestParam(name = "email") String email,
+
 
                                 HttpServletRequest request) {
         //logger.info(HttpUtil.getHeaders(request));
-        Result result = userService.register(userName, password, email);
+        Result result = userService.register(userName, phoneNumber, email, password);
         if (!result.getCode().equals(ResultEnum.SUCCESS.getCode())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
         }
@@ -60,4 +62,19 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    /**
+     * 用户验证
+     */
+    @GetMapping("/safetyVerification")
+    @CrossOrigin(value = "*")
+
+        public ResponseEntity safetyVerification(@RequestParam(name = "tokenString") String tokenString,
+                                HttpServletRequest request) throws Exception{
+        //logger.info(HttpUtil.getHeaders(request));
+        Result result = userService.safetyVerification(tokenString);
+        if (!result.getCode().equals(ResultEnum.SUCCESS.getCode())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }

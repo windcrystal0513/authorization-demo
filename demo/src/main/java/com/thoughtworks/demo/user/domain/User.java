@@ -6,7 +6,7 @@ import javax.persistence.*;
  * 用户信息类
  *
  * @author yunfeng
- * @date 2020、6、8
+ * @date 2020/6/8
  */
 
 @Entity
@@ -21,21 +21,27 @@ public class User {
      */
     private String userName;
     /**
+     * phoneNumber 电话
+     */
+    private String phoneNumber;
+    /**
      * password 密码
      */
     private String password;
     /**
-     * note 一些额外信息（例如用户真实姓名）
+     * email 邮箱
      */
     private String email;
 
     public User() {
     }
 
-    public User(String userName, String password, String email) {
+    public User(String userName, String phoneNumber, String email, String password) {
         this.userName = userName;
-        this.password = password;
+        this.phoneNumber=phoneNumber;
         this.email = email;
+        this.password = password;
+
     }
 
     @Override
@@ -43,8 +49,10 @@ public class User {
         return "User{" +
                 "userId=" + userId +
                 ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+
                 '}';
     }
 
@@ -62,6 +70,13 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPassword() {

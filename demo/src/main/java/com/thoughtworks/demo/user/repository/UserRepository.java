@@ -17,11 +17,18 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      *
      * @param userName 用户名
      * @param password 密码
+     * @param phoneNumber 电话
+     * @param email 邮箱
      * @return User
      */
     @Transactional(rollbackFor = Exception.class)
     User findByUserNameAndPassword(String userName, String password);
+    User findByPhoneNumberAndPassword(String phoneNumber, String password);
+    User findByEmailAndPassword(String email, String password);
     User findByUserName(String userName);
+    User findByPhoneNumber(String phoneNumber);
+    User findByEmail(String email);
+
 
 
 }

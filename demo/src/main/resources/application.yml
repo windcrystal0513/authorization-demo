@@ -13,3 +13,12 @@ spring:
     generate-ddl: false
     hibernate:
     ddl-auto: none
+
+jwt:
+  safety:
+    secret: y2W89L6BkRAFljhN
+  valid:
+    time: 7
+
+
+

@@ -121,6 +121,17 @@ public enum ResultEnum {
 
     //用户登录
     LOGIN_ERROR(176, "登录失败：用户不存在"),
+    LOGIN_ERROR_1(254, "登录失败：密码错误"),
+
+    //验证token
+    VERIFY_ERROR(255, "token错误"),
+    VERIFY_ERROR_1(256, "token过期"),
+
+
+    //用户注册
+    REGISTER_ERROR_1(251, "注册失败：用户名已注册过"),
+    REGISTER_ERROR_2(252, "注册失败：电话已注册过"),
+    REGISTER_ERROR_3(253, "注册失败：邮箱已注册过"),
 
     //依赖关系
     DEPENDENCY_SEARCH_ERROR(177, "主题依赖关系查询失败：没有课程信息记录"),
