@@ -50,6 +50,7 @@ public class    UserService {
             logger.error("登录失败：用户不存在");
             return ResultUtil.error(ResultEnum.LOGIN_ERROR.getCode(), ResultEnum.LOGIN_ERROR.getMsg());
         }
+
         if (user4 == null && user5 == null && user6 == null) {
             logger.error("登录失败：密码错误");
             return ResultUtil.error(ResultEnum.LOGIN_ERROR_1.getCode(), ResultEnum.LOGIN_ERROR_1.getMsg());
