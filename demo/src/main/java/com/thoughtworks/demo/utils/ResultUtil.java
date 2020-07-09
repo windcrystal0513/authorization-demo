@@ -1,6 +1,6 @@
 package com.thoughtworks.demo.utils;
 
-import com.thoughtworks.demo.domain.Result;
+import com.thoughtworks.demo.common.Result;
 
 /**
  * 统一处理成功和失败的信息

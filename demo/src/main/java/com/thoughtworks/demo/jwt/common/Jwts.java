@@ -1,6 +1,7 @@
 package com.thoughtworks.demo.jwt.common;
 
-import com.thoughtworks.demo.domain.ResultEnum;
+
+import com.thoughtworks.demo.exception.TokenException;
 import com.thoughtworks.demo.jwt.secret.Base64Utils;
 import com.thoughtworks.demo.jwt.secret.aes.AESUtils;
 import com.thoughtworks.demo.jwt.secret.sm3.SM3Cipher;
@@ -8,7 +9,8 @@ import com.thoughtworks.demo.jwt.secret.sm4.SM4Util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import com.thoughtworks.demo.utils.ResultUtil;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -22,6 +24,8 @@ import java.util.UUID;
  *
  * @author: yunfeng
  */
+
+@RestController
 @Slf4j
 public class Jwts extends HashMap {
 
@@ -38,7 +42,9 @@ public class Jwts extends HashMap {
      * 默认加密密钥
      */
     private final String jwtSafetySecret = "0dcac1b6ec8843488fbe90e166617e34";
+    @Value("${jwt.valid.time}")
 
+    private int jwtValidTime;
     /**
      * 指定加密算法和密钥
      *
@@ -90,6 +96,8 @@ public class Jwts extends HashMap {
         System.out.println("生成的token为:" + token);
         return token;
     }
+
+
     /**
      * 生成摘要
      *
@@ -110,50 +118,42 @@ public class Jwts extends HashMap {
         }
         return dataSignature;
     }
-//    /**
-//     * @author: yunfeng
-//     * @demand: 校验token完整性和时效性
-//     * @parameters:
-//     * @creationDate：
-//     * @email:
-//     */
-//    public static Boolean safetyVerification(String tokenString ) throws Exception {
-//        String jwtSafetySecret="y2W89L6BkRAFljhN";
-//        // 有坑，转义字符
-//        //System.out.println(tokenString);
-//        String[] split = tokenString.split("\\.");
-//
-//        if (split.length != 3) {
-//            return ResultUtil.error(ResultEnum.VERIFY_ERROR.getCode(), ResultEnum.VERIFY_ERROR.getMsg());
-//        }
-//        // 头部信息
-//        HashMap<String, Object> obj = JSON.parseObject(Base64Utils.getFromBase64(split[0]), HashMap.class);
-//        // 数据信息
-//        JwtClaims jwtClaims = JSON.parseObject(Base64Utils.getFromBase64(split[1]), JwtClaims.class);
-//        // 签名信息
-//        String signature = split[2];
-//        System.out.println(obj);
-//        System.out.println(jwtClaims);
-//        System.out.println(signature);
-//        // 验证token是否在有效期内
-//        if (jwtClaims.get("failureTime") == null) {
-//            return ResultUtil.error(ResultEnum.VERIFY_ERROR.getCode(), ResultEnum.VERIFY_ERROR.getMsg());
-//        }
-//        if (jwtClaims.get("failureTime") != null) {
-//            long failureTime = Long.valueOf(String.valueOf(jwtClaims.get("failureTime")));
-//            if (new Date().getTime() > failureTime) {
-//                throw new RuntimeException("此token已过有效期");
-//            }
-//        }
-//
-//        // 验证数据篡改
-//        Object code = obj.get("code");
-//        //System.out.println(code);
-//        String encryptionType = code == null ? "AES" : code.toString();
-//        // 比较签名
-//        String signatureNew = dataSignature(obj, jwtClaims, encryptionType, jwtSafetySecret);
-//        return signature.equals(signatureNew.replaceAll("\\+"," ")) ? true : false;
-//    }
+    /**
+     * @author: yunfeng
+     * @demand: 校验token完整性和时效性
+     * @parameters:
+     * @creationDate：
+     * @email:
+     */
+    public static Boolean safetyVerification(String tokenString ) throws Exception {
+        String jwtSafetySecret="y2W89L6BkRAFljhN";
+        // 有坑，转义字符
+        //System.out.println(tokenString);
+        String[] split = tokenString.split("\\.");
 
+        if (split.length != 3) {
+            throw new RuntimeException("无效的token");
+        }
+        // 头部信息
+        HashMap<String, Object> obj = JSON.parseObject(Base64Utils.getFromBase64(split[0]), HashMap.class);
+        // 数据信息
+        JwtClaims jwtClaims = JSON.parseObject(Base64Utils.getFromBase64(split[1]), JwtClaims.class);
+        // 签名信息
+        String signature = split[2];
+        // 验证token是否在有效期内
+        if (jwtClaims.get("failureTime") != null) {
+            long failureTime = Long.valueOf(String.valueOf(jwtClaims.get("failureTime")));
+            if (new Date().getTime() > failureTime) {
+                throw new TokenException(401,"Token已过期");
+            }
+        }
 
+        // 验证数据篡改
+        Object code = obj.get("code");
+        //System.out.println(code);
+        String encryptionType = code == null ? "AES" : code.toString();
+        // 比较签名
+        String signatureNew = dataSignature(obj, jwtClaims, encryptionType, jwtSafetySecret);
+        return signature.equals(signatureNew.replaceAll("\\+"," ")) ? true : false;
+    }
 }
