@@ -14,10 +14,7 @@ import java.util.Random;
 
 /**
  * 加密相关公共方法
- *
- * @author zifangsky
- * @date 2018/7/31
- * @since 1.0.0
+
  */
 public class EncryptUtils {
 

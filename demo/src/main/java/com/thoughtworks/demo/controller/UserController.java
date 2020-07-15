@@ -1,43 +1,50 @@
 package com.thoughtworks.demo.controller;
 
+import com.thoughtworks.demo.common.CommonException;
 import com.thoughtworks.demo.common.Result;
+import com.thoughtworks.demo.common.RegisterRequest;
 import com.thoughtworks.demo.service.UserService;
-import com.thoughtworks.demo.utils.HttpUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.validation.BindingResult;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.List;
 
 /**
-
+ * 跟用户注册登录以及token验证有关的功能
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
+    private final UserService userService;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * API
      * 用户注册
+     *
+     * @return
      */
     @PostMapping("/register")
     @CrossOrigin(value = "*")
-    public ResponseEntity register(@RequestParam(name = "userName") String userName,
-                                   @RequestParam(name = "phoneNumber") String phoneNumber,
-                                   @RequestParam(name = "email") String email,
-                                @RequestParam(name = "password") String password,
-                                HttpServletRequest request) throws Exception{
-        logger.info(HttpUtil.getHeaders(request));
-        Result result = userService.register(userName, phoneNumber, email, password);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+    public Result register(@RequestBody @Valid RegisterRequest registerRequest,
+                              BindingResult bindingResult) throws CommonException {
+        List <FieldError> allErrors = bindingResult.getFieldErrors();
+        for (FieldError fieldError : allErrors) {
+            throw new CommonException(HttpStatus.BAD_REQUEST.value(),fieldError.getDefaultMessage());
+        }
+        Result result = userService.register(registerRequest.getUserName(),
+                registerRequest.getPhoneNumber(),
+                registerRequest.getEmail(),
+                registerRequest.getPassword());
+        return result;
     }
 
     /**
@@ -46,11 +53,11 @@ public class UserController {
     @GetMapping("/login")
     @CrossOrigin(value = "*")
 
-    public ResponseEntity login(@RequestParam(name = "userName") String userName,
+    public Result login(@RequestParam(name = "userName") String userName,
                                 @RequestParam(name = "password") String password,
                                 HttpServletRequest request) {
         Result result = userService.login(userName, password);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return result;
     }
 
     /**
@@ -59,11 +66,11 @@ public class UserController {
     @GetMapping("/safetyVerification")
     @CrossOrigin(value = "*")
 
-        public ResponseEntity safetyVerification(@RequestParam(name = "tokenString") String tokenString,
-                                HttpServletRequest request) throws Exception{
+    public Result safetyVerification(@RequestParam(name = "tokenString") String tokenString,
+                                             HttpServletRequest request) throws Exception {
 
         Result result = userService.safetyVerification(tokenString);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return result;
     }
 
 }

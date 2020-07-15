@@ -1,13 +1,14 @@
 package com.thoughtworks.demo.common;
 
+import lombok.Getter;
+
 import java.util.concurrent.TimeUnit;
 
+
+@Getter
 /**
  * 过期时间相关枚举
  *
- * @author zifangsky
- * @date 2018/8/18
- * @since 1.0.0
  */
 public enum ExpireEnum {
     //Authorization Code的有效期为10分钟
@@ -30,13 +31,5 @@ public enum ExpireEnum {
     ExpireEnum(Long time, TimeUnit timeUnit) {
         this.time = time;
         this.timeUnit = timeUnit;
-    }
-
-    public Long getTime() {
-        return time;
-    }
-
-    public TimeUnit getTimeUnit() {
-        return timeUnit;
     }
 }

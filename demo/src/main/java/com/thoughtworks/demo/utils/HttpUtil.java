@@ -7,7 +7,6 @@ import java.net.UnknownHostException;
 /**
  * 关于HTTP传输的信息的解析
  *
- * @author yangkuan
  */
 public class HttpUtil {
     public static String getOrigin(HttpServletRequest request) {

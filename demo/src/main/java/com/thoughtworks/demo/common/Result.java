@@ -8,7 +8,6 @@ package com.thoughtworks.demo.common;
  * data:[...]
  * ]
  * <p>
- * Created by yuanhao on 2017/8/9.
  */
 public class Result<T> {
 

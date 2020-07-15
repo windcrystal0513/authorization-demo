@@ -1,14 +1,14 @@
-package com.thoughtworks.demo.exception;
+package com.thoughtworks.demo.common;
 
-public class TokenException extends RuntimeException{
+public class CommonException extends RuntimeException{
     private Integer code;
     private String message;
-    public TokenException(Integer code,String message){
+    public CommonException(Integer code,String message){
         super(message);
         this.message=message;
         this.code=code;
     }
-    public TokenException(String message){
+    public CommonException(String message){
         super(message);
         this.message=message;
     }

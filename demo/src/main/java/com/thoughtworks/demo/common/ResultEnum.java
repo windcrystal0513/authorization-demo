@@ -2,7 +2,6 @@ package com.thoughtworks.demo.common;
 
 /**
  * 枚举管理所有失败原因
- * Created by yuanhao on 2017/8/9.
  */
 public enum ResultEnum {
     SUCCESS(200, "成功"),

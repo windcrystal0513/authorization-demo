@@ -4,16 +4,13 @@ import com.thoughtworks.demo.common.*;
 import com.thoughtworks.demo.domain.AuthAccessToken;
 import com.thoughtworks.demo.domain.AuthClientDetails;
 import com.thoughtworks.demo.domain.AuthRefreshToken;
-import com.thoughtworks.demo.exception.Oauth2Exception;
 import com.thoughtworks.demo.service.AuthorizationService;
 import com.thoughtworks.demo.service.UserService;
 import com.thoughtworks.demo.utils.DateUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,14 +22,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Slf4j
 @RequestMapping(value = "/oauth2.0")
 public class OauthController {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    AuthorizationService authorizationService;
+    private AuthorizationService authorizationService;
 
     /**
      * 注册需要接入的客户端信息
@@ -184,21 +182,21 @@ public class OauthController {
 
         //校验授权方式
         if(!GrantTypeEnum.AUTHORIZATION_CODE.getType().equals(grantType)){
-            logger.error("请求的Authorization Code、Accesen、Refresh Token等信息是无效的。");
-            throw new Oauth2Exception(400,"请求的Authorization Code、Access Token、Refresh Token等信息是无效的。");
+            log.error("请求的Authorization Code、Accesen、Refresh Token等信息是无效的。");
+            throw new CommonException(HttpStatus.BAD_REQUEST.value(),"请求的Authorization Code、Access Token、Refresh Token等信息是无效的。");
         }
 
         AuthClientDetails savedClientDetails = authorizationService.selectClientDetailsByClientId(clientIdStr);
         //校验请求的客户端秘钥和已保存的秘钥是否匹配
         if(!(savedClientDetails != null && savedClientDetails.getClientSecret().equals(clientSecret))){
-            logger.error("client_id或client_secret 无效");
-            throw new Oauth2Exception(400,"请求的client_id或client_secret参数无效。");
+            log.error("client_id或client_secret 无效");
+            throw new CommonException(HttpStatus.BAD_REQUEST.value(),"请求的client_id或client_secret参数无效。");
         }
 
         //校验回调URL
         if(!savedClientDetails.getRedirectUri().equals(redirectUri)){
-            logger.error("URL不正确");
-            throw new Oauth2Exception(401,"请求的redirect_uri所在的域名与开发者注册应用时所填写的域名不匹配。");
+            log.error("URL不正确");
+            throw new CommonException(HttpStatus.UNAUTHORIZED.value(),"请求的redirect_uri所在的域名与开发者注册应用时所填写的域名不匹配。");
         }
 
 //            //从Redis获取允许访问的用户权限范围
@@ -253,8 +251,8 @@ public class OauthController {
 
             //如果Refresh Token已经失效，则需要重新生成
             if (expiresDateTime.isBefore(nowDateTime)) {
-                logger.error("请求的Access Token或Refresh Token已过期。");
-                throw new Oauth2Exception(400,"请求的Access Token或Refresh Token已过期。");
+                log.error("请求的Access Token或Refresh Token已过期。");
+                throw new CommonException(HttpStatus.BAD_REQUEST.value(),"请求的Access Token或Refresh Token已过期。");
             } else {
                 //获取存储的Access Token
                 AuthAccessToken authAccessToken = authorizationService.selectByAccessId(authRefreshToken.getTokenId());
@@ -276,8 +274,8 @@ public class OauthController {
                 return ResponseEntity.status(HttpStatus.OK).body(result);
             }
         }else {
-            logger.error("请求的Authorization Code、Access Token、Refresh Token等信息是无效的。");
-            throw new Oauth2Exception(400,"请求的Authorization Code、Access Token、Refresh Token等信息是无效的。");
+            log.error("请求的Authorization Code、Access Token、Refresh Token等信息是无效的。");
+            throw new CommonException(HttpStatus.BAD_REQUEST.value(),"请求的Authorization Code、Access Token、Refresh Token等信息是无效的。");
         }
     }
 

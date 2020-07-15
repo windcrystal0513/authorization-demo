@@ -8,10 +8,6 @@ import java.util.Locale;
 
 /**
  * Date相关公共方法
- *
- * @author zifangsky
- * @date 2018/7/27
- * @since 1.0.0
  */
 public class DateUtils {
     private static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -19,9 +15,6 @@ public class DateUtils {
 
     /**
      * 返回当前的LocalDateTime
-     * @author zifangsky
-     * @date 2018/7/30 13:23
-     * @since 1.0.0
      * @return java.time.LocalDateTime
      */
     public static LocalDateTime now(){
@@ -30,9 +23,6 @@ public class DateUtils {
 
     /**
      * 返回当前时间字符串（格式化表达式：yyyy-MM-dd HH:mm:ss）
-     * @author zifangsky
-     * @date 2018/7/30 13:23
-     * @since 1.0.0
      * @return java.lang.String
      */
     public static String nowStr(){
@@ -41,9 +31,6 @@ public class DateUtils {
 
     /**
      * 返回当前时间字符串
-     * @author zifangsky
-     * @date 2018/7/30 13:23
-     * @since 1.0.0
      * @param pattern 指定时间格式化表达式
      * @return java.lang.String
      */
@@ -53,9 +40,6 @@ public class DateUtils {
 
     /**
      * 返回当前精确到秒的时间戳
-     * @author zifangsky
-     * @date 2018/7/30 13:23
-     * @since 1.0.0
      * @param zoneOffset 时区，不填默认为+8
      * @return java.lang.Long
      */
@@ -71,9 +55,6 @@ public class DateUtils {
 
     /**
      * 返回当前精确到毫秒的时间戳
-     * @author zifangsky
-     * @date 2018/7/30 13:23
-     * @since 1.0.0
      * @return java.lang.Long
      */
     public static Long currentTimeMillis(){
@@ -82,9 +63,6 @@ public class DateUtils {
 
     /**
      * 将时间戳转换为LocalDateTime
-     * @author zifangsky
-     * @date 2018/7/30 13:23
-     * @since 1.0.0
      * @param second Long类型的时间戳
      * @param zoneOffset 时区，不填默认为+8
      * @return java.time.LocalDateTime
@@ -99,9 +77,6 @@ public class DateUtils {
 
     /**
      * 格式化LocalDateTime（格式化表达式：yyyy-MM-dd HH:mm:ss）
-     * @author zifangsky
-     * @date 2018/7/30 13:23
-     * @since 1.0.0
      * @return java.lang.String
      */
     public static String toDateTimeStr(LocalDateTime dateTime){
@@ -110,9 +85,6 @@ public class DateUtils {
 
     /**
      * 格式化LocalDateTime
-     * @author zifangsky
-     * @date 2018/7/30 13:23
-     * @since 1.0.0
      * @param pattern 指定时间格式化表达式
      * @return java.lang.String
      */
@@ -122,9 +94,6 @@ public class DateUtils {
 
     /**
      * 将时间字符串转化为LocalDateTime
-     * @author zifangsky
-     * @date 2018/7/30 13:48
-     * @since 1.0.0
      * @param dateTimeStr 时间字符串
      * @return java.time.LocalDateTime
      */
@@ -134,9 +103,6 @@ public class DateUtils {
     
     /**
      * 将时间字符串转化为LocalDateTime
-     * @author zifangsky
-     * @date 2018/7/30 13:48
-     * @since 1.0.0
      * @param dateTimeStr 时间字符串
      * @param pattern 指定时间格式化表达式
      * @return java.time.LocalDateTime
@@ -147,9 +113,6 @@ public class DateUtils {
     
     /**
      * 返回当前日期的LocalDate
-     * @author zifangsky
-     * @date 2018/7/30 13:37
-     * @since 1.0.0
      * @return java.time.LocalDate
      */
     public static LocalDate currentDate(){
@@ -158,9 +121,6 @@ public class DateUtils {
 
     /**
      * 返回当前日期字符串（格式化表达式：yyyy-MM-dd）
-     * @author zifangsky
-     * @date 2018/7/30 13:42
-     * @since 1.0.0
      * @return java.lang.String
      */
     public static String currentDateStr(){
@@ -169,9 +129,6 @@ public class DateUtils {
 
     /**
      * 格式化LocalDate
-     * @author zifangsky
-     * @date 2018/7/30 13:42
-     * @since 1.0.0
      * @param date LocalDate
      * @return java.lang.String
      */
@@ -181,9 +138,6 @@ public class DateUtils {
 
     /**
      * 格式化LocalDate
-     * @author zifangsky
-     * @date 2018/7/30 13:42
-     * @since 1.0.0
      * @param date LocalDate
      * @param pattern 指定日期格式化表达式
      * @return java.lang.String
@@ -194,9 +148,6 @@ public class DateUtils {
 
     /**
      * 将日期字符串转化为LocalDate
-     * @author zifangsky
-     * @date 2018/7/30 13:48
-     * @since 1.0.0
      * @param dateStr 日期字符串
      * @return java.time.LocalDate
      */
@@ -206,9 +157,6 @@ public class DateUtils {
 
     /**
      * 将日期字符串转化为LocalDate
-     * @author zifangsky
-     * @date 2018/7/30 13:48
-     * @since 1.0.0
      * @param dateStr 日期字符串
      * @param pattern 指定日期格式化表达式
      * @return java.time.LocalDate
@@ -219,9 +167,6 @@ public class DateUtils {
 
     /**
      * 返回几天之后的时间
-     * @author zifangsky
-     * @date 2018/8/18 17:36
-     * @since 1.0.0
      * @param days 天数
      * @return java.time.LocalDateTime
      */
@@ -231,9 +176,6 @@ public class DateUtils {
 
     /**
      * 返回几天之后的时间（精确到秒的时间戳）
-     * @author zifangsky
-     * @date 2018/8/18 17:36
-     * @since 1.0.0
      * @param days 天数
      * @param zoneOffset 时区，不填默认为+8
      * @return java.lang.Long
@@ -250,9 +192,6 @@ public class DateUtils {
 
     /**
      * 将天数转化为秒数
-     * @author zifangsky
-     * @date 2018/8/18 17:45
-     * @since 1.0.0
      * @param days 天数
      * @return java.lang.Integer
      */

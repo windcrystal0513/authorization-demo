@@ -2,10 +2,6 @@ package com.thoughtworks.demo.common;
 
 /**
  * 公共常量类
- *
- * @author zifangsky
- * @date 2018/7/25
- * @since 1.0.0
  */
 public class Constants {
     /**

@@ -4,7 +4,6 @@ import com.thoughtworks.demo.common.Result;
 
 /**
  * 统一处理成功和失败的信息
- * Created by 18710 on 2017/8/9.
  */
 public class ResultUtil {
 
@@ -16,8 +15,8 @@ public class ResultUtil {
      * @param object 成功需要返回的对象
      * @return 请求成功状态
      */
-    public static Result success(Integer code, String msg, Object object) {
-        Result result = new Result();
+    public static <T> Result <T> success(Integer code, String msg, T object) {
+        Result<T> result = new Result<T>(code,msg,object);
         result.setCode(code);
         result.setMsg(msg);
         result.setData(object);
@@ -31,8 +30,8 @@ public class ResultUtil {
      * @param msg  失败回传信息，一般为失败原因
      * @return 请求失败状态
      */
-    public static Result error(Integer code, String msg) {
-        Result result = new Result();
+    public static <T> Result <T>  error(Integer code, String msg) {
+        Result<T> result = new Result<T>();
         result.setCode(code);
         result.setMsg(msg);
         return result;
@@ -45,8 +44,8 @@ public class ResultUtil {
      * @param msg  失败回传信息，一般为失败原因
      * @return 请求失败状态
      */
-    public static Result error(Integer code, String msg, Object object) {
-        Result result = new Result();
+    public static <T>Result<T> error(Integer code, String msg, T object) {
+        Result<T> result = new Result<T>();
         result.setCode(code);
         result.setMsg(msg);
         result.setData(object);

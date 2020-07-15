@@ -1,8 +1,17 @@
 package com.thoughtworks.demo.domain;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "auth_scope")
 public class AuthScope {
@@ -17,27 +26,4 @@ public class AuthScope {
 
     private String description;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getScopeName() {
-        return scopeName;
-    }
-
-    public void setScopeName(String scopeName) {
-        this.scopeName = scopeName == null ? null : scopeName.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
 }

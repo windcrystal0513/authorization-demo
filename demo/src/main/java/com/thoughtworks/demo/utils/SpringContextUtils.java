@@ -1,4 +1,4 @@
-package com.thoughtworks.demo.common;
+package com.thoughtworks.demo.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
@@ -17,7 +17,6 @@ import java.util.Map;
 
 /**
  * 自定义Spring工具类
- * @author zifangsky
  */
 @Component
 public class SpringContextUtils implements ApplicationContextAware {
