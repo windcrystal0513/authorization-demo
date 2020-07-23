@@ -32,6 +32,7 @@ public class ApiController {
     private UserService userService;
 
     @RequestMapping(value = "/users/getInfo")
+
     public String getUserInfo(HttpServletRequest request) {
         String accessToken = request.getParameter("access_token");
         AuthAccessToken authAccessToken = authorizationService.selectByAccessToken(accessToken);
