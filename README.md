@@ -69,9 +69,10 @@ OAuth2.0授权相关接口：
 
 （4）通过Authorization Code获取Access Token：
 
+点击网页上的想要吃鱼
+
 接口地址：http://localhost:8080/oauth2.0/token?grant_type=authorization_code&code=ee2a52564ca0054e589d07e8c7f3faf6e52b336c&client_id=057ILIhKGv6rnKNsB68aEHfb&client_secret=vzMJW2HiFADbqXbKW5PHzIO8beFyKH6d&redirect_uri=http://localhost:8080/getAccessToken.html
 
-点击网页上的想要吃鱼
 
 返回如下：
 {
@@ -111,6 +112,8 @@ OAuth2.0授权相关接口：
 页面停留在http://http://localhost:8080/getAccessToken.html，url里的access_token等信息会进行更换
 
 （6）通过Access Token获取用户信息：
+
+点击页面上的吃鱼
 
 接口地址：http://localhost:8080/api/users/getInfo?access_token=1.24f19bd83f85487b4dd7b400d59243c787fb8c60.2592000.1598080961
 
