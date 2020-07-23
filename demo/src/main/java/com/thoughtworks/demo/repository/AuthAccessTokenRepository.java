@@ -12,7 +12,6 @@ public interface AuthAccessTokenRepository extends JpaRepository<AuthAccessToken
      * @param userId 用户id
      * @param clientId  clientid
      * @param scope 权限范围
-     * @param accessToken Token
      * @return AuthAccessToken
      */
     @Transactional(rollbackFor = Exception.class)

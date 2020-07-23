@@ -8,11 +8,7 @@ import java.util.Arrays;
 
 /**
  * 国密算法SM4实现
- *
- * @author Mr.Xiao
- * @company GDT-ZWZX-DEV-PT
- * @date 2017-08
- * @since 1.6
+
  */
 public class SM4Util {
 

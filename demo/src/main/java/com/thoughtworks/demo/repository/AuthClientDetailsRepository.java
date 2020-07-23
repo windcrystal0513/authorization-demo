@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface AuthClientDetailsRepository extends JpaRepository<AuthClientDetails, Long>, JpaSpecificationExecutor<AuthClientDetails> {
     /**
      * 指定clientid查询用户信息
-     *
-
      * @param clientId  clientid
 
      */

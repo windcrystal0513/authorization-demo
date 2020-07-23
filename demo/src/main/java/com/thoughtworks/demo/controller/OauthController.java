@@ -6,15 +6,12 @@ import com.thoughtworks.demo.domain.AuthClientDetails;
 import com.thoughtworks.demo.domain.AuthRefreshToken;
 import com.thoughtworks.demo.domain.User;
 import com.thoughtworks.demo.service.AuthorizationService;
-import com.thoughtworks.demo.service.UserService;
 import com.thoughtworks.demo.service.RedisService;
 import com.thoughtworks.demo.utils.DateUtils;
 import com.thoughtworks.demo.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,7 +37,6 @@ public class OauthController {
 
     /**
      * 注册需要接入的客户端信息
-     *
      * @author yunfeng
      * @date 2020.7.8
      */

@@ -15,9 +15,6 @@ import java.security.NoSuchAlgorithmException;
 /**
  * @ClassName: AESUtils
  * @Description: 参数加密解密工具
- * @Author: yuguoying
- * @Create: 2019-02-12 14:26
- * @Email:894262868@qq.com
  */
 public class AESUtils {
 
@@ -130,19 +127,4 @@ public class AESUtils {
     }
 
 
-//    /**
-//     * 主方法测试
-//     *
-//     * @param args
-//     */
-//    public static void main(String[] args) {
-//        String context = "zhaors";
-//        System.out.println("元数据" + context);
-//        String encrypt = encrypt(context);
-//        System.out.println("加密之后：" + encrypt);
-//        encrypt = "Ggz71pqhojJvRjXdUg6xbK+qSpjWrlWvFgAxFwpNMi2VtwEXq7Rk+aNzskbyeigLh/UgUe+95j80 h053T7dRQQ==";
-//        encrypt = "jd1n5fzSMn2sZYx5HV2E3g==";
-//        String decrypt = decrypt(encrypt);
-//        System.out.println(encrypt + " 解密之后：" + decrypt);
-//    }
 }

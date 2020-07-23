@@ -11,7 +11,6 @@ public interface AuthRefreshTokenRepository extends JpaRepository<AuthRefreshTok
      * 指定token等信息查询用户信息
      *
      * @param tokenId tokenid
-     * @param refreshToken
      * @return AuthRefreshToken
      */
     @Transactional(rollbackFor = Exception.class)

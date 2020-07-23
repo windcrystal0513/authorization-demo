@@ -4,11 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * 类 名: FailureTimeUtils
- * 描 述:
- * 作 者: yunfeng
- * 创 建: 2020/6/9 : 14:55
- *
  * @author: yunfeng
  */
 public class FailureTimeUtils {
@@ -16,8 +11,6 @@ public class FailureTimeUtils {
     /**
      * @author: yunfeng
      * @demand: 根据指定的时间规则和时间生成有效时间
-     * @parameters:
-     * @creationDate：
      */
     public static Date creatValidTime(FailureTime failureTime, int jwtValidTime) {
         Date date = new Date();

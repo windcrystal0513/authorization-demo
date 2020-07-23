@@ -68,7 +68,6 @@ public class UserController {
         String redirectUrl = request.getParameter("redirectUri");
         if(StringUtils.isNoneBlank(redirectUrl)){
             HttpSession session = request.getSession();
-            //将回调地址添加到session中
             session.setAttribute(Constants.SESSION_LOGIN_REDIRECT_URL,redirectUrl);
         }
         return new ModelAndView("login");

@@ -5,10 +5,6 @@ import java.util.Objects;
 
 /**
  * 类 名: JwtClaims
- * 描 述:
- * 作 者: yunfeng
- * 创 建: 2020/6/9 : 14:55
- *
  * @author: yunfeng
  */
 public class JwtClaims extends HashMap {
