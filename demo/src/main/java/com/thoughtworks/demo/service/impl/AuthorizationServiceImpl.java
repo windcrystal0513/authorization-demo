@@ -8,6 +8,7 @@ import com.thoughtworks.demo.common.CommonException;
 import com.thoughtworks.demo.repository.*;
 import com.thoughtworks.demo.domain.*;
 import com.thoughtworks.demo.service.AuthorizationService;
+import com.thoughtworks.demo.service.RedisService;
 import com.thoughtworks.demo.utils.DateUtils;
 import com.thoughtworks.demo.utils.EncryptUtils;
 import com.thoughtworks.demo.utils.ResultUtil;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -26,6 +28,8 @@ import java.util.Date;
 @Slf4j
 @Service("authorizationServiceImpl")
 public class AuthorizationServiceImpl implements AuthorizationService {
+    @Resource(name = "redisServiceImpl")
+    private RedisService redisService;
 
     @Autowired
     private AuthClientDetailsRepository authClientDetailsRepository;
@@ -37,6 +41,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private AuthAccessTokenRepository authAccessTokenRepository;
     @Autowired
     private AuthRefreshTokenRepository authRefreshTokenRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     /**
@@ -51,7 +57,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     public Result register(String clientName, String redirectUri, String description) throws CommonException {
         if (!"".equals(clientName) && !"".equals(redirectUri) && !"".equals(description)) {
             String clientId = EncryptUtils.getRandomStr1(24);
-
             AuthClientDetails savedClientDetails = authClientDetailsRepository.findByClientId(clientId);
             for (int i = 0; i < 10; i++) {
                 if (savedClientDetails == null) {
@@ -62,23 +67,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
                 }
             }
             String clientSecret = EncryptUtils.getRandomStr1(32);
-
             Date current = new Date();
-
-//            AuthClientDetails clientDetails = new AuthClientDetails();
-//
-//            clientDetails.setClientName(clientName);
-//            clientDetails.setRedirectUri(redirectUri);
-//            clientDetails.setDescription(description);
-//            clientDetails.setClientId(clientId);
-//            clientDetails.setClientSecret(clientSecret);
-//            //clientDetails.setCreateUser(user.getId());
-//            clientDetails.setCreateTime(current);
-//            //clientDetails.setUpdateUser(user.getId());
-//            clientDetails.setUpdateTime(current);
-//            clientDetails.setStatus(1);
-
-
             authClientDetailsRepository
                     .save(AuthClientDetails
                             .builder()
@@ -115,6 +104,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     @Override
+    public User selectByUserId(Integer id) {return userRepository.findById(id);}
+
+    @Override
     public AuthAccessToken selectByAccessId(Integer id) {
         return authAccessTokenRepository.findById(id);
     }
@@ -123,50 +115,40 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     public AuthRefreshToken selectByRefreshToken(String refreshToken) {
         return authRefreshTokenRepository.findByRefreshToken(refreshToken);
     }
-//
-//    @Override
-//    public boolean saveAuthClientUser(Integer userId, String clientIdStr, String scopeStr) {
-//        AuthClientDetails clientDetails = authClientDetailsRepository.findByClientId(clientIdStr);
-//        AuthScope scope = authScopeRepository.findByScopeName(scopeStr);
-//
-//        if(clientDetails != null && scope != null){
-//            AuthClientUser clientUser = authClientUserRepository.findByClientIdAndUserIdAndScopeId(clientDetails.getId(), userId, scope.getId());
-//            //如果数据库中不存在记录，则插入
-//            if(clientUser == null){
-//                clientUser = new AuthClientUser();
-//                clientUser.setUserId(userId);
-//                clientUser.setAuthClientId(clientDetails.getId());
-//                clientUser.setAuthScopeId(scope.getId());
-//                authClientUserRepository.save(clientUser);
-//            }
-//
-//            return true;
-//        }else{
-//            return false;
-//        }
-//    }
+
+    @Override
+    public boolean saveAuthClientUser(Integer userId, String clientIdStr, String scopeStr) {
+        AuthClientDetails clientDetails = authClientDetailsRepository.findByClientId(clientIdStr);
+        AuthScope scope = authScopeRepository.findByScopeName(scopeStr);
+        if(clientDetails != null && scope != null){
+            AuthClientUser clientUser = authClientUserRepository.findByAuthClientIdAndUserIdAndAuthScopeId(clientDetails.getId(), userId, scope.getId());
+            if(clientUser == null){
+                clientUser = new AuthClientUser();
+                clientUser.setUserId(userId);
+                clientUser.setAuthClientId(clientDetails.getId());
+                clientUser.setAuthScopeId(scope.getId());
+                authClientUserRepository.save(clientUser);
+            }
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     /**
      * 生成authorizationCode
      *
      * @param clientIdStr
      * @param scopeStr
+     * @param user
      * @return String
      */
     @Override
-    public String createAuthorizationCode(String clientIdStr, String scopeStr) {
-        //1. 拼装待加密字符串（clientId + scope + 当前精确到毫秒的时间戳）
+    public String createAuthorizationCode(String clientIdStr, String scopeStr, User user) {
         String str = clientIdStr + scopeStr + String.valueOf(DateUtils.currentTimeMillis());
-
-        //2. SHA1加密
         String encryptedStr = EncryptUtils.sha1Hex(str);
-
-//        //3.1 保存本次请求的授权范围
-//        redisService.setWithExpire(encryptedStr + ":scope", scopeStr, (ExpireEnum.AUTHORIZATION_CODE.getTime()), ExpireEnum.AUTHORIZATION_CODE.getTimeUnit());
-//        //3.2 保存本次请求所属的用户信息
-//        redisService.setWithExpire(encryptedStr + ":user", user, (ExpireEnum.AUTHORIZATION_CODE.getTime()), ExpireEnum.AUTHORIZATION_CODE.getTimeUnit());
-
-        //4. 返回Authorization Code
+        redisService.setWithExpire(encryptedStr + ":scope", scopeStr, (ExpireEnum.AUTHORIZATION_CODE.getTime()), ExpireEnum.AUTHORIZATION_CODE.getTimeUnit());
+        redisService.setWithExpire(encryptedStr + ":user", user, (ExpireEnum.AUTHORIZATION_CODE.getTime()), ExpireEnum.AUTHORIZATION_CODE.getTimeUnit());
         return encryptedStr;
     }
 
@@ -179,35 +161,34 @@ public class AuthorizationServiceImpl implements AuthorizationService {
      * @return String
      */
     @Override
-    public String createAccessToken(AuthClientDetails savedClientDetails, String grantType, Long expiresIn) {
+    public String createAccessToken(User user,AuthClientDetails savedClientDetails, String grantType, String scope, Long expiresIn) {
         Date current = new Date();
         Long expiresAt = DateUtils.nextDaysSecond(ExpireEnum.ACCESS_TOKEN.getTime(), null);
         String str = savedClientDetails.getClientId() + String.valueOf(DateUtils.currentTimeMillis());
         String accessTokenStr = "1." + EncryptUtils.sha1Hex(str) + "." + expiresIn + "." + expiresAt;
-        AuthAccessToken savedAccessToken = authAccessTokenRepository.findByUserIdAndClientIdAndScope(1
-                , savedClientDetails.getId(), "basic");
+        AuthAccessToken savedAccessToken = authAccessTokenRepository.findByUserIdAndClientIdAndScope(user.getId()
+                , savedClientDetails.getId(), scope);
         if (savedAccessToken != null) {
             savedAccessToken.setAccessToken(accessTokenStr);
             savedAccessToken.setExpiresIn(expiresAt);
-            savedAccessToken.setUpdateUser(1);
+            savedAccessToken.setUpdateUser(user.getId());
             savedAccessToken.setUpdateTime(current);
             authAccessTokenRepository.save(savedAccessToken);
         } else {
             savedAccessToken = new AuthAccessToken();
             savedAccessToken.setAccessToken(accessTokenStr);
-            savedAccessToken.setUserId(1);
-            savedAccessToken.setUserName("wind");
+            savedAccessToken.setUserId(user.getId());
+            savedAccessToken.setUserName(user.getUsername());
             savedAccessToken.setClientId(savedClientDetails.getId());
             savedAccessToken.setExpiresIn(expiresAt);
-            savedAccessToken.setScope("basic");
+            savedAccessToken.setScope(scope);
             savedAccessToken.setGrantType(grantType);
-            savedAccessToken.setCreateUser(1);
-            savedAccessToken.setUpdateUser(1);
+            savedAccessToken.setCreateUser(user.getId());
+            savedAccessToken.setUpdateUser(user.getId());
             savedAccessToken.setCreateTime(current);
             savedAccessToken.setUpdateTime(current);
             authAccessTokenRepository.save(savedAccessToken);
         }
-
         return accessTokenStr;
     }
 
@@ -218,7 +199,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
      * @return String
      */
     @Override
-    public String createRefreshToken(AuthAccessToken authAccessToken) {
+    public String createRefreshToken(User user, AuthAccessToken authAccessToken) {
         Date current = new Date();
         Long expiresIn = DateUtils.dayToSecond(ExpireEnum.REFRESH_TOKEN.getTime());
         Long expiresAt = DateUtils.nextDaysSecond(ExpireEnum.REFRESH_TOKEN.getTime(), null);
@@ -228,7 +209,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         if (savedRefreshToken != null) {
             savedRefreshToken.setRefreshToken(refreshTokenStr);
             savedRefreshToken.setExpiresIn(expiresAt);
-            savedRefreshToken.setUpdateUser(1);
+            savedRefreshToken.setUpdateUser(user.getId());
             savedRefreshToken.setUpdateTime(current);
             authRefreshTokenRepository.save(savedRefreshToken);
         } else {
@@ -236,8 +217,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             savedRefreshToken.setTokenId(authAccessToken.getId());
             savedRefreshToken.setRefreshToken(refreshTokenStr);
             savedRefreshToken.setExpiresIn(expiresAt);
-            savedRefreshToken.setCreateUser(1);
-            savedRefreshToken.setUpdateUser(1);
+            savedRefreshToken.setCreateUser(user.getId());
+            savedRefreshToken.setUpdateUser(user.getId());
             savedRefreshToken.setCreateTime(current);
             savedRefreshToken.setUpdateTime(current);
             authRefreshTokenRepository.save(savedRefreshToken);

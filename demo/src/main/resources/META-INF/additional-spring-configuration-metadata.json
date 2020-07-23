@@ -4,5 +4,15 @@
       "name": "jwt.safety.secret",
       "type": "java.lang.String",
       "description": "Description for jwt.safety.secret."
-  }
-] }
+    },
+    {
+      "name": "spring.jpa.hibernate",
+      "type": "java.lang.String",
+      "description": "Description for spring.jpa.hibernate."
+    },
+    {
+      "name": "spring.jpa.redis.cluster.nodes",
+      "type": "java.lang.String",
+      "description": "Description for spring.jpa.redis.cluster.nodes."
+    }
+  ] }

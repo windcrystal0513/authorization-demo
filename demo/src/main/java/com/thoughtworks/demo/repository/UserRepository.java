@@ -17,8 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      *
      * @param username 用户名
      * @param password 密码
-     * @param mobile 电话
-     * @param email 邮箱
      * @return User
      */
     @Transactional(rollbackFor = Exception.class)
@@ -28,6 +26,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     User findByUsername(String username);
     User findByMobile(String mobile);
     User findByEmail(String email);
+    User findById(Integer id);
 
 
 

@@ -6,6 +6,13 @@ spring:
     url: jdbc:mysql://localhost:3306/crystal?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
     username: root
     password: root123456
+  #Thymeleaf
+  thymeleaf:
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    template-resolver-order: 0
+    cache: false
 
   jpa:
     database: MySQL
@@ -15,6 +22,19 @@ spring:
     hibernate:
     ddl-auto: none
 
+    redis:
+      cluster:
+        nodes: namenode22:6379,datanode23:6379,datanode24:6379
+        max-redirects: 6
+      timeout: 300000
+      jedis:
+        pool:
+          max-active: 8
+          max-wait: 100000
+          max-idle: 8
+          min-idle: 0
+  resources: # 指定静态资源的路径</br>
+    static-locations: classpath:/templates/
 jwt:
   safety:
     secret: y2W89L6BkRAFljhN0dcac1b6ec8843488fbe90e166617e34

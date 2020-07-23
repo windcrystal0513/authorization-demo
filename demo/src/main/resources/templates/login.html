@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html class="login-alone" xmlns:https="http://www.w3.org/1999/xhtml">
+<head>
+    <title>统一认证登录</title>
+    <meta name="keywords" content="统一认证登录"/>
+    <meta name="description" content="统一认证登录"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css ">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/ipconfig.js"></script>
+
+</head>
+<body>
+<div class="logina-logo" style="height: 55px">
+    <div>
+        <h1 style="font-size: 40px">统一认证登录</h1>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<div class="logina-main main clearfix">
+    <div class="tab-con">
+        <form id="form-login">
+            <div id='login-error' class="error-tip"></div>
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                <tr>
+                    <th>账户</th>
+                    <td width="245">
+                        <input id="u" type="text" name="username" pattern="[A-Za-z]{3}"
+                               title="Three letter country code" placeholder="请输入用户名/手机号/邮箱" autocomplete="off"
+                               value=""></td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <th>密码</th>
+                    <td width="245">
+                        <input id="p" type="password" name="password" placeholder="请输入密码" autocomplete="off">
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+
+                <tr class="find">
+                    <th></th>
+                    <td>
+                        <div>
+                            <label id="tishi" style="color:#ff0000;font-size: 20px" class="checkbox"
+                                   for="chk11"></label>
+
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <th></th>
+                    <td width="245"><input class="confirm" id="login" type="button" value="登 录"></td>
+                    <td></td>
+                </tr>
+
+
+                </tbody>
+            </table>
+            <input type="hidden" name="refer" value="site/">
+        </form>
+    </div>
+    <div class="reg">
+        <p><a href="login.html" class="btn btn-primary btn-outline  ">登录 </a><a href="/register.html"
+                                                                                class="btn btn-success btn-outline ">注册 </a>
+        </p>
+
+        <p>欢迎登录<br>1024只喵管理系统</p>
+
+    </div>
+</div>
+<div id="footer">
+    <div class="copyright">
+        <p>2020 © thoughtworks rights reserved | 思特沃克（西安）有限公司, <a href="https://www.thoughtworks.com/cn//"
+                                                                  target="_blank"> thoughtworks</a></p>
+    </div>
+</div>
+</body>
+</html>

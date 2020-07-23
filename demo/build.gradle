@@ -18,6 +18,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.3.1.RELEASE'
+
 // https://mvnrepository.com/artifact/com.alibaba/fastjson
 	compile group: 'com.alibaba', name: 'fastjson', version: '1.2.58'
 // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16
@@ -26,6 +29,10 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 // https://mvnrepository.com/artifact/org.apache.directory.studio/org.apache.commons.codec
 	compile group: 'org.apache.directory.studio', name: 'org.apache.commons.codec', version: '1.8'
+// https://mvnrepository.com/artifact/redis.clients/jedis
+	compile group: 'redis.clients', name: 'jedis', version: '3.3.0'
+// https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis
+	compile group: 'org.springframework.data', name: 'spring-data-redis', version: '2.3.1.RELEASE'
 
 
 

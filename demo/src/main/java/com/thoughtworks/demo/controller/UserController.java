@@ -1,15 +1,23 @@
 package com.thoughtworks.demo.controller;
 
 import com.thoughtworks.demo.common.CommonException;
+import com.thoughtworks.demo.common.Constants;
 import com.thoughtworks.demo.common.Result;
 import com.thoughtworks.demo.common.RegisterRequest;
+import com.thoughtworks.demo.repository.UserRepository;
+import com.thoughtworks.demo.domain.User;
 import com.thoughtworks.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,6 +28,10 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;
+
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -47,6 +59,20 @@ public class UserController {
         return result;
     }
 
+
+    /**
+     * 登录页面
+     */
+    @RequestMapping("/loginPage")
+    public ModelAndView loginPage(HttpServletRequest request){
+        String redirectUrl = request.getParameter("redirectUri");
+        if(StringUtils.isNoneBlank(redirectUrl)){
+            HttpSession session = request.getSession();
+            //将回调地址添加到session中
+            session.setAttribute(Constants.SESSION_LOGIN_REDIRECT_URL,redirectUrl);
+        }
+        return new ModelAndView("login");
+    }
     /**
      * 用户登录
      */
@@ -56,7 +82,10 @@ public class UserController {
     public Result login(@RequestParam(name = "userName") String userName,
                                 @RequestParam(name = "password") String password,
                                 HttpServletRequest request) {
+        User user = userRepository.findByUsername(userName);
         Result result = userService.login(userName, password);
+        HttpSession session = request.getSession();
+        session.setAttribute(Constants.SESSION_USER, user);
         return result;
     }
 

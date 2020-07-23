@@ -10,11 +10,9 @@ public interface AuthClientUserRepository extends JpaRepository<AuthClientUser, 
      * 指定clientid等信息查询用户信息
      *
      * @param userId 用户id
-     * @param clientId  clientid
-     * @param scopeId 权限范围
      * @return AuthClientUser
      */
     @Transactional(rollbackFor = Exception.class)
-    AuthClientUser findByClientIdAndUserIdAndScopeId(Integer clientId, Integer userId, Integer scopeId);
+    AuthClientUser findByAuthClientIdAndUserIdAndAuthScopeId(Integer AuthClientId, Integer userId, Integer AuthScopeId);
 
 }

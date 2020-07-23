@@ -72,7 +72,6 @@ public class UserService {
             log.error("登录失败：密码错误");
             throw new CommonException(HttpStatus.BAD_REQUEST.value(), "用户信息错误");
         }
-
     }
 
     /**
@@ -151,6 +150,20 @@ public class UserService {
             log.error("验证失败");
             throw new CommonException(HttpStatus.UNAUTHORIZED.value(), "Token不正确");
         }
+    }
+
+
+    public User selectUserInfoByScope(Integer userId, String scope) {
+        User user = userRepository.findById(userId);
+
+        //如果是基础权限，则部分信息不返回
+        if("basic".equalsIgnoreCase(scope)){
+            user.setPassword(null);
+            user.setCreateTime(null);
+            user.setUpdateTime(null);
+            user.setStatus(null);
+        }
+        return user;
     }
 
 }

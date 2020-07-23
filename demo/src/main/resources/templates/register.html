@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html class="login-alone">
+    <head>
+        <title>统一认证注册</title>
+		<meta name="keywords" content="统一认证注册" />
+		<meta name="description" content="统一认证注册" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="css/screen.css?v=3.9" media="screen, projection" rel="stylesheet" type="text/css" >
+        <link rel="stylesheet" type="text/css" href="css/base.css?v=3.9">
+        <link rel="stylesheet" type="text/css" href="css/login.css?v=3.9">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.js"></script>
+        <script type="text/javascript" src="js/login.js"></script>
+        <script type="text/javascript" src="js/ipconfig.js"></script>
+        
+    </head>
+    <body>
+        <div class="logina-logo" style="height: 55px">
+                <div>
+                    <h1 style="font-size: 40px">统一认证注册</h1>
+                </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="logina-main main clearfix">
+            <div class="tab-con">
+                <form id="form-login" >
+                    <div id='login-error' class="error-tip"></div>
+                    <table border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr>
+                                <form >
+                                    <p>姓名：<label><input id="username" style="margin-left: 180%" type="text" name=""  required="required" pattern="[a-zA-Z0-9_]{4,16}" placeholder="4到16位字母数字下划线组合" oninvalid="setCustomValidity('真实姓名必须是4到16位字母、数字、下划线组合')"  oninput="setCustomValidity('')"></label></p>
+
+                                    <p>手机号：<label><input id="phonenumber" type="tel" style="margin-left: 180%" name="" required="required" maxlength="11"  pattern="^(0|86|17951)?1[0-9]{10}" placeholder="请输入11位手机号码" oninvalid="setCustomValidity('请输入11位手机号码')" oninput="setCustomValidity('')"></label></p>
+
+                                    <p>邮箱：<label><input id="email" style="margin-left: 180%" type="email" name="" required="required"  placeholder="请输入邮箱" ></label></p>
+
+                                    <p>密码：<label><input id="password" type="password" style="margin-left: 180%" name="" required="required" pattern="^[a-zA-Z0-9]\w{5,19}$" placeholder="密码为6~20字母数字或下划线" oninvalid="setCustomValidity('6~20字母数字或下划线')"  oninput="setCustomValidity('')"></label></p>
+
+                                    <p>密码：<label><input id="password" type="password" style="margin-left: 180%" name="" required="required" pattern="^[a-zA-Z0-9]\w{5,19}$" placeholder="请再次输入密码" oninvalid="setCustomValidity('6~20字母数字或下划线')"  oninput="setCustomValidity('')"></label></p>
+                                    <!-- &nbsp&nbsp&nbsp
+                                    <input type="submit"  style="margin-left: 30%, position: inline-block" value="验证信息有效性"> 
+                                    &nbsp&nbsp&nbsp&nbsp
+ -->
+                                    <input type="button"  id="register" style="margin-left: 60%"  value="注册">            
+                                </form>
+                            </tr>
+                            <!-- <tr>
+                                <th>用户名</th>
+                                <td width="245">
+                                    <input id="u" type="text" name="username"  required="required" placeholder="请输入用户名" value=""  pattern="[0-9a-zA-Z_]{5,16}" oninvalid="setCustomValidity('真实姓名必须是中文，且长度不小于2，不大于4')"  oninput="setCustomValidity('')"   ></td>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>手机号</th>
+                                <td width="245">
+                                    <input id="phonenumber" type="text" name="phonenumber" placeholder="请输入手机号"  value=""  pattern="(?:(?:\+|00)86)?1\d{10}" required >
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>邮箱</th>
+                                <td width="245">
+                                    <input id="email" type="text" name="email" placeholder="请输入邮箱"  value="" pattern="[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required></td>
+                                <td>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th>密码</th>
+                                <td width="245">
+                                    <input id="password" type="password" name="password" placeholder="请输入密码"  required>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+
+                             <tr class="find">
+                                <th></th>
+                                <td>
+                                    <div>
+                                        <label id="tishi" style="color:red;font-size: 20px" class="checkbox" for="chk11"></label>
+                                        
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                           
+                            <tr>
+                                <th></th>
+                                <td width="245"><input class="confirm" id="register" type="submit" value="注 册 " ></td>
+                                <td></td>
+                            </tr> -->
+
+                            
+                        </tbody>
+                    </table>
+                    <input type="hidden" name="refer" value="site/">
+                </form>
+            </div>
+            <div class="reg" style="margin-top: 10%">
+                <p ><a href="login.html" class="btn btn-primary btn-outline  ">登录 </a><a href="register.html" class="btn btn-success btn-outline ">注册 </a></p>
+                <p>欢迎注册<br>1024只喵管理系统</p>
+                
+            </div>
+        </div>
+        <div id="footer">
+            <div class="copyright">
+                <p>2020 © thoughtworks rights reserved | 思特沃克（西安）有限公司, <a href="https://www.thoughtworks.com/cn//" target="_blank">  thoughtworks</a></p>
+            </div>
+        </div>  
+    </body>
+
+</html>

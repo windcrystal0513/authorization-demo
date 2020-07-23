@@ -19,10 +19,10 @@ public class AuthClientUser {
     @Id
     private Integer id;
 
-    private Integer clientId;
+    private Integer authClientId;
 
     private Integer userId;
 
-    private Integer scopeId;
+    private Integer authScopeId;
 
 }
