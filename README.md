@@ -1,4 +1,4 @@
-# login-with-JWT
+# authorization-demo
 springboot+springdata jpa+jwt实现注册登录以及模拟oauth2.0流程
 
 自己手动实现的注册登录OAuth2.0授权的项目。
