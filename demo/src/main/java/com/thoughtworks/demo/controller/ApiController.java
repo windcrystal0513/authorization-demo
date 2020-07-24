@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api")
 public class ApiController {
-
     @Resource(name = "authorizationServiceImpl")
     private AuthorizationService authorizationService;
 
